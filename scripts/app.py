@@ -3,15 +3,16 @@ import pandas as pd
 import numpy as np
 import joblib
 import os
+from pathlib import Path
 
 # Get the absolute path to the models directory
-current_dir = os.path.dirname(__file__)
-models_dir = os.path.join(os.path.dirname(current_dir), 'models')
+current_dir = Path(__file__).parent
+models_dir = current_dir.parent / 'models'
 
 # Load model and scaler
 try:
-    model = joblib.load(os.path.join(models_dir, 'medical_cost_model.joblib'))
-    scaler = joblib.load(os.path.join(models_dir, 'scaler.joblib'))
+    model = joblib.load(str(models_dir / 'medical_cost_model.joblib'))
+    scaler = joblib.load(str(models_dir / 'scaler.joblib'))
 except Exception as e:
     st.error(f"Error loading model: {str(e)}")
     st.write("Current directory:", current_dir)
