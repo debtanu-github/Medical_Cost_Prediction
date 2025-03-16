@@ -1,30 +1,62 @@
-# Medical Cost Prediction
+# Medical Cost Prediction Project
 
-A machine learning project to predict medical insurance costs based on personal factors.
+This project analyzes and predicts medical costs using machine learning techniques.
+
+## Live Demo
+
+🔗 **[Try the Live Application](https://insurance-cost-prediction.streamlit.app/)**
+
+The application is deployed on Streamlit Cloud and provides instant medical insurance cost predictions in both USD and INR.
+
+## Setup Instructions
+
+1. Create a virtual environment (recommended):
+
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows use: venv\Scripts\activate
+```
+
+2. Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+3. Run Jupyter Notebook:
+
+```bash
+jupyter notebook
+```
+
+4. Open `notebooks/Medical_Cost_Prediction.ipynb` in your browser and run the cells sequentially.
 
 ## Project Structure
 
-## Setup
+- `notebooks/`: Contains Jupyter notebooks with analysis
+  - `Medical_Cost_Prediction.ipynb`: Main analysis notebook
+- `app.py`: Streamlit web application for cost prediction
+- `models/`: Contains trained machine learning models
 
-1. Clone the repository
-2. Create a virtual environment: `python -m venv venv`
-3. Activate the virtual environment:
-   - Windows: `venv\Scripts\activate`
-   - Unix/MacOS: `source venv/bin/activate`
-4. Install dependencies: `pip install -r requirements.txt`
+## Data Description
 
-## Usage
+The project analyzes medical cost data with features including:
 
-Run the Streamlit app:
+- Age
+- BMI (Body Mass Index)
+- Number of children
+- Medical charges
 
 ## Features
 
-- Predicts medical insurance costs
+- Predicts medical insurance costs in USD and INR
 - Takes into account:
   - Age
   - BMI
   - Smoking status
-  - And other factors
+  - Number of children
+  - Region
+  - Gender
 
 ## Model
 
@@ -33,3 +65,10 @@ Currently using Linear Regression with features:
 - Age
 - BMI
 - Smoking status
+
+## Usage
+
+You can either:
+
+1. Use the [live application](https://insurance-cost-prediction.streamlit.app/)
+2. Run locally using `streamlit run app.py`
