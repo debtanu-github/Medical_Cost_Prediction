@@ -1,3 +1,6 @@
+#this frontend is made by using streamlit and ai assistant
+# will change it later to a proper frontend, lets just focus on building the model first
+
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -8,6 +11,9 @@ from pathlib import Path
 # Get the absolute path to the models directory
 current_dir = Path(__file__).parent
 models_dir = current_dir.parent / 'models'
+
+# USD to INR conversion rate
+USD_TO_INR = 80  # Example fixed rate
 
 # Load model and scaler
 try:
@@ -55,7 +61,7 @@ if submit:
         })
         
         # Convert categorical variables
-        input_data['sex'] = (input_data['sex'] == 'male').astype(int)  # male=1, female=0
+        input_data['sex'] = (input_data['sex'] == 'male').astype(int)
         input_data['smoker_yes'] = (input_data['smoker'] == 'yes').astype(int)
         
         # Create dummy variables for region
@@ -63,7 +69,7 @@ if submit:
         input_data = pd.concat([input_data, region_dummies], axis=1)
         
         # Select only the features that the model was trained on
-        model_features = ['age', 'bmi', 'smoker_yes']  # Update this if model changes
+        model_features = ['age', 'bmi', 'smoker_yes']
         input_data_model = input_data[model_features]
         
         # Scale the input
@@ -73,10 +79,16 @@ if submit:
         prediction = model.predict(input_scaled)
         
         # Convert back from log scale and format as float
-        cost = float(np.exp(prediction[0]) - 1)
+        cost_usd = float(np.exp(prediction[0]) - 1)
+        cost_inr = cost_usd * USD_TO_INR
         
-        # Display prediction with formatted currency
-        st.success(f"Predicted Insurance Cost: ${cost:,.2f}")
+        # Display predictions with formatted currency
+        st.success("Predicted Insurance Cost:")
+        col1, col2 = st.columns(2)
+        with col1:
+            st.metric("USD", f"${cost_usd:,.2f}")
+        with col2:
+            st.metric("INR", f"₹{cost_inr:,.2f}")
         
         # Add some context
         if smoker == "yes":
@@ -100,6 +112,14 @@ with st.expander("About BMI"):
     - Obese: ≥ 30
     """)
 
+# Add information about currency conversion
+with st.expander("About Currency Conversion"):
+    st.write(f"""
+    Currency conversion is based on a fixed rate:
+    - 1 USD = ₹{USD_TO_INR:.2f}
+    - Note: Actual rates may vary. This is an approximate conversion.
+    """)
+
 # Add footer
 st.markdown("---")
-st.markdown("Built with Streamlit")
+st.markdown("Built with Streamlit") 
